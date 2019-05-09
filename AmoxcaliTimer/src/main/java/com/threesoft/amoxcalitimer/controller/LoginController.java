@@ -76,15 +76,15 @@ public class LoginController implements Serializable {
                     FacesContext.getCurrentInstance().addMessage("messages",
                             new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario y/o contraseña incorrectos.", ""));
                 } else {
-                    if (aca.getFechaActivacion() != null) {//cambiar línea de comparación por "!="
+                    if (aca.getFechaActivacion() != null && aca.getActivo()) {//cambiar línea de comparación por "!="
                         FacesContext context = FacesContext.getCurrentInstance();
                         context.getExternalContext().getSessionMap().put("Academico", aca);
                         ExternalContext eContext = context.getExternalContext();
-                        eContext.redirect(eContext.getRequestContextPath() + "/views/academico/solicitar_espacio.xhtml");
+                        eContext.redirect(eContext.getRequestContextPath() + "/solicitar_espacio.xhtml");
                     }
                     FacesContext.getCurrentInstance().addMessage("messages",
                             new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                                    "Tu cuenta aun no ha sido verificada, intenta en otro momento", ""));
+                                    "Tu cuenta no está Activada, intenta en otro momento", ""));
                 }
             } else {
                 AdministradorDao administradorDao = new AdministradorDao();
@@ -97,7 +97,7 @@ public class LoginController implements Serializable {
                     FacesContext context = FacesContext.getCurrentInstance();
                     context.getExternalContext().getSessionMap().put("Administrador", admin);
                     ExternalContext eContext = context.getExternalContext();
-                    eContext.redirect(eContext.getRequestContextPath() + "/views/administrador/ver_historial_espacios.xhtml");
+                    eContext.redirect(eContext.getRequestContextPath() + "/historial.xhtml");
                 }
             }
         } catch (IOException ex) {

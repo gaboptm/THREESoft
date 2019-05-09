@@ -24,10 +24,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author damianri
+ * @author damri
  */
 @Entity
-@Table(name = "academico")
+@Table(name = "academico", catalog = "postgres", schema = "public")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Academico.findAll", query = "SELECT a FROM Academico a")
@@ -39,51 +39,54 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Academico.findByTipo", query = "SELECT a FROM Academico a WHERE a.tipo = :tipo")
     , @NamedQuery(name = "Academico.findByFechaActivacion", query = "SELECT a FROM Academico a WHERE a.fechaActivacion = :fechaActivacion")
     , @NamedQuery(name = "Academico.findByUserName", query = "SELECT a FROM Academico a WHERE a.userName = :userName")
-    , @NamedQuery(name = "Academico.findByNoTrabajador", query = "SELECT a FROM Academico a WHERE a.noTrabajador = :noTrabajador")})
+    , @NamedQuery(name = "Academico.findByNoTrabajador", query = "SELECT a FROM Academico a WHERE a.noTrabajador = :noTrabajador")
+    , @NamedQuery(name = "Academico.findByActivo", query = "SELECT a FROM Academico a WHERE a.activo = :activo")})
 public class Academico implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id_academico")
+    @Column(name = "id_academico", nullable = false)
     private Long idAcademico;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 210)
-    @Column(name = "nombre_completo")
+    @Column(name = "nombre_completo", nullable = false, length = 210)
     private String nombreCompleto;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 210)
-    @Column(name = "correo_aca")
+    @Column(name = "correo_aca", nullable = false, length = 210)
     private String correoAca;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 210)
-    @Column(name = "password")
+    @Column(name = "password", nullable = false, length = 210)
     private String password;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
-    @Column(name = "departamento")
+    @Column(name = "departamento", nullable = false, length = 100)
     private String departamento;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
-    @Column(name = "tipo")
+    @Column(name = "tipo", nullable = false, length = 100)
     private String tipo;
     @Column(name = "fecha_activacion")
     @Temporal(TemporalType.DATE)
     private Date fechaActivacion;
     @Size(max = 100)
-    @Column(name = "user_name")
+    @Column(name = "user_name", length = 100)
     private String userName;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 20)
-    @Column(name = "no_trabajador")
+    @Column(name = "no_trabajador", nullable = false, length = 20)
     private String noTrabajador;
+    @Column(name = "activo")
+    private Boolean activo;
 
     public Academico() {
     }
@@ -172,6 +175,14 @@ public class Academico implements Serializable {
 
     public void setNoTrabajador(String noTrabajador) {
         this.noTrabajador = noTrabajador;
+    }
+
+    public Boolean getActivo() {
+        return activo;
+    }
+
+    public void setActivo(Boolean activo) {
+        this.activo = activo;
     }
 
     @Override
